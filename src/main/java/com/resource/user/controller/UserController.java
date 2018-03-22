@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.resource.user.model.User;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:3030")
 public class UserController {
 
 	
@@ -26,8 +28,13 @@ public class UserController {
 	UserDao userDao;
 	
 	@RequestMapping(value="/list")
+	
 	public List<User> getAll(){
 		return userDao.getAll();
+	}
+	@RequestMapping(value="/proc")
+	public String getAllUsingProcedure(){
+		return userDao.getAllUsingProcedure();
 	}
 	
 	@RequestMapping(value="/save",method=RequestMethod.POST)

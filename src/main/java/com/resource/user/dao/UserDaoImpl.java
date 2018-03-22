@@ -3,7 +3,9 @@ package com.resource.user.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,4 +48,17 @@ public class UserDaoImpl implements UserDao {
 		entityManager.remove(entityManager.contains(user) ? user : entityManager.merge(user));
 	}
 
+	@Override
+	@Transactional
+	public String getAllUsingProcedure() {
+        StoredProcedureQuery storedProcedure = 
+          entityManager
+            .createStoredProcedureQuery("getUserNames",User.class)
+            .registerStoredProcedureParameter(1, String.class, ParameterMode.OUT);
+        
+        storedProcedure.execute();
+        
+        
+       return storedProcedure.getOutputParameterValue(1).toString();
+    }
 }

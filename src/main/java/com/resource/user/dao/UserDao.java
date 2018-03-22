@@ -13,4 +13,6 @@ public interface UserDao {
 	long update(User user);
 
 	void delete(User user);
+
+	String getAllUsingProcedure();
 }
